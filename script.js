@@ -1,9 +1,9 @@
-import { startConfetti, stopConfetti, removeConfetti } from './confetti';
+import { startConfetti, stopConfetti, removeConfetti } from './confetti.js';
 const playerScoreEl = document.getElementById('playerScore');
 const playerChoiceEl = document.getElementById('playerChoice');
 const computerScoreEl = document.getElementById('computerScore');
 const computerChoiceEl = document.getElementById('computerChoice');
-resultText = document.getElementById('resultText');
+const resultText = document.getElementById('resultText');
 
 const playerRock = document.getElementById('playerRock');
 const playerPaper = document.getElementById('playerPaper');
@@ -48,7 +48,7 @@ function resetAll() {
   resultText.textContent = '';
   resetSelected();
 }
-
+window.resetAll = resetAll;
 // Random computer choice
 function computerRandomChoice() {
   const computerChoiceNumber = Math.random();
@@ -149,6 +149,7 @@ function select(playerChoice) {
       break;
   }
 }
+window.select = select;
 
 // on initial load rset all elements
 resetAll();
