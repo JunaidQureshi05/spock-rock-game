@@ -25,23 +25,25 @@ const choices = {
   spock: { name: 'Spock', defeats: ['scissors', 'rock'] },
 };
 
+let playerScoreNumber = 0;
+let computerScoreNumber = 0;
+let computerChoice = '';
+
 // Reset all 'selected' icons
 function resetSelected() {
   allGameIcons.forEach((icon) => icon.classList.remove('selected'));
 }
 
-let computerChoice = '';
-
 // Random computer choice
 function computerRandomChoice() {
-  const computerChoiceNumber = Math.floor(Math.random() * 5 + 1);
-  if (computerChoiceNumber === 1) {
+  const computerChoiceNumber = Math.random();
+  if (computerChoiceNumber < 0.2) {
     computerChoice = 'rock';
-  } else if (computerChoiceNumber === 2) {
+  } else if (computerChoiceNumber < 0.4) {
     computerChoice = 'paper';
-  } else if (computerChoiceNumber === 3) {
+  } else if (computerChoiceNumber < 0.6) {
     computerChoice = 'scissors';
-  } else if (computerChoiceNumber === 4) {
+  } else if (computerChoiceNumber < 0.8) {
     computerChoice = 'lizard';
   } else {
     computerChoice = 'spock';
@@ -77,15 +79,34 @@ function displayComputerChoice() {
   }
 }
 
+// Check results ,increase socre,update result text
+function updateScore(playerChoice) {
+  if (playerChoice === computerChoice) {
+    resultText.textContent = "It's a tie.";
+  } else {
+    const choice = choices[playerChoice];
+    if (choice.defeats.indexOf(computerChoice) > -1) {
+      resultText.textContent = 'You Won!';
+      playerScoreNumber++;
+      playerScoreEl.textContent = playerScoreNumber;
+    } else {
+      resultText.textContent = 'You Lost!';
+      computerScoreNumber++;
+      computerScoreEl.textContent = computerScoreNumber;
+    }
+  }
+}
+
 // call function to process turn
-function checkResult() {
+function checkResult(playerChoice) {
   resetSelected();
   computerRandomChoice();
+  updateScore(playerChoice);
 }
 
 // Passing player selection value and styling icons
 function select(playerChoice) {
-  checkResult();
+  checkResult(playerChoice);
   // add 'selected' styling & playerChoice
   switch (playerChoice) {
     case 'rock':
